@@ -1,0 +1,4 @@
+DERBY_HOME=$JAVA_HOME/db
+export DERBY_HOME
+PATH=$PATH:$DERBY_HOME/bin
+export PATH

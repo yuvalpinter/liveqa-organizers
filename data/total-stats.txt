@@ -1,0 +1,10 @@
+Arts & Humanities=416
+Beauty & Style=627
+Computers & Internet=861
+Health=1419
+Home & Garden=150
+Pets=381
+Sports=568
+Travel=213
+Total: 4635
+location: BT: /path/liveqa/demodata
