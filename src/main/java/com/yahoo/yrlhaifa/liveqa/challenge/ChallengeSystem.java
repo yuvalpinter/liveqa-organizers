@@ -52,11 +52,12 @@ public class ChallengeSystem {
     public void run() throws ChallengeSystemException {
         // Ignore any proxy settings set by the OS.
         ProxySelector.setDefault(null);
+        boolean noDb = storageParameters.getConnectionString() == null;
 
         try {
             try (Storage storage = new Storage(storageParameters)) {
-                try (AnswerStorageOperator answerStorageOperator = storage.constructAnswerStorageOperator()) {
-                    try (QuestionStorageOperator questionStorageOperator = storage.constructQuestionStorageOperator()) {
+                try (AnswerStorageOperator answerStorageOperator = storage.constructAnswerStorageOperator(noDb)) {
+                    try (QuestionStorageOperator questionStorageOperator = storage.constructQuestionStorageOperator(noDb)) {
                         try (QuestionOperator questionOperator = questionOperatorFactory.createQuestionOperator(
                                         participants, questionStorageOperator, answerStorageOperator)) {
                             try (QuestionFeeder questionFeeder = questionFeederFactory.createQuestionFeeder()) {

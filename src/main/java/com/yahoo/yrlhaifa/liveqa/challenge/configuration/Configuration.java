@@ -74,7 +74,9 @@ public class Configuration {
     }
 
     public StorageParameters getStorageParameters() throws ChallengeConfigurationException {
-        final String connectionString = getString(DATABASE_CONNECTION_STRING_PARAMETER_NAME);
+        final String connectionString = parameters.containsKey(DATABASE_CONNECTION_STRING_PARAMETER_NAME)
+        		? getString(DATABASE_CONNECTION_STRING_PARAMETER_NAME)
+        		: null;
         final String questionFile = getString(TEXT_FILE_QUESTIONS_PARAMETER_NAME);
         final String answerFile = getString(TEXT_FILE_ANSWERS_PARAMETER_NAME);
         final boolean allowIncremental = parameters.getBoolean(ALLOW_INCREMENTAL_STORAGE_PARAMETER_NAME);

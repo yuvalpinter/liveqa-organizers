@@ -15,3 +15,7 @@ hs_err_pid*
 /.project
 /.settings/
 /bin/
+/logs/
+/derby.log
+/log4j.properties
+/logfile.*

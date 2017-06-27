@@ -1,2 +1,4 @@
 whom	name	server_url	contact_email
-
+EmoryTest	test	http://carbonite.mathcs.emory.edu:11234	eugene
+CMU-OAQA	CMU	http://gold.lti.cs.cmu.edu:11000/	diwang@cs.cmu.edu
+Localtest	Yuval	http://localhost:11234	uvp

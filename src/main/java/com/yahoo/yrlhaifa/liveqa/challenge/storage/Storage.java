@@ -31,10 +31,15 @@ public class Storage implements ChallengeAutoCloseable {
         this.parameters = parameters;
     }
 
-    public QuestionStorageOperator constructQuestionStorageOperator() throws StorageFatalException {
+    public QuestionStorageOperator constructQuestionStorageOperator(boolean noDb) throws StorageFatalException {
         try {
-            questionConnection = DriverManager.getConnection(parameters.getConnectionString());
 
+            if (noDb) {
+            	return new TextFileQuestionStorage(parameters.getQuestionStorageFile(),
+                        parameters.isIncrementalDatabaseAllowed());
+            }
+
+            questionConnection = DriverManager.getConnection(parameters.getConnectionString());
             return new AggregatedQuestionStorageOperator(Arrays.asList(new QuestionStorageOperator[] {
                             new SqlQuestionStorageOperator(questionConnection, parameters),
                             new TextFileQuestionStorage(parameters.getQuestionStorageFile(),
@@ -47,10 +52,15 @@ public class Storage implements ChallengeAutoCloseable {
         }
     }
 
-    public AnswerStorageOperator constructAnswerStorageOperator() throws StorageFatalException {
+    public AnswerStorageOperator constructAnswerStorageOperator(boolean noDb) throws StorageFatalException {
         try {
-            answerConnection = DriverManager.getConnection(parameters.getConnectionString());
 
+            if (noDb) {
+            	return new TextFileAnswerStorage(parameters.getAnswerStorageFile(),
+                                parameters.isIncrementalDatabaseAllowed());
+            }
+            
+            answerConnection = DriverManager.getConnection(parameters.getConnectionString());
             return new AggregatedAnswerStorageOperator(Arrays.asList(
                             new AnswerStorageOperator[] {new SqlAnswerStorageOperator(answerConnection, parameters),
                                             new TextFileAnswerStorage(parameters.getAnswerStorageFile(),
@@ -75,7 +85,7 @@ public class Storage implements ChallengeAutoCloseable {
                 questionConnection.close();
             }
             final String connectionString = parameters.getConnectionString();
-            if (connectionString.startsWith(DERBY_PREFIX)) {
+            if (connectionString != null && connectionString.startsWith(DERBY_PREFIX)) {
                 try {
                     logger.info("Shut down DERBY ...");
                     DriverManager.getConnection(connectionString + DERBY_SHUTDOWN_POSTFIX);
