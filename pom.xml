@@ -6,7 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>liveqa-organizers-clean</name>
 	<description>Code for organizers of TREC LiveQA Challenges</description>
-
+	
+	<properties>
+	    <maven.compiler.source>1.8</maven.compiler.source>
+	    <maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	  
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
