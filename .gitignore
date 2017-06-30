@@ -19,3 +19,5 @@ hs_err_pid*
 /derby.log
 /log4j.properties
 /logfile.*
+/logfiles/
+/old-logs/

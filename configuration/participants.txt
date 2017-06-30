@@ -2,3 +2,7 @@ whom	name	server_url	contact_email
 EmoryTest	test	http://carbonite.mathcs.emory.edu:11234	eugene
 CMU-OAQA	CMU	http://gold.lti.cs.cmu.edu:11000/	diwang@cs.cmu.edu
 Localtest	Yuval	http://localhost:11234	uvp
+prna-r1	Philips Research North America	ws://54.158.156.0:11000	vivek.datla@philips.com
+prna-run2	Philips Research North America	ws://54.158.156.0:11001	vivek.datla@philips.com
+prna-run3	Philips Research North America	ws://54.158.156.0:11002	vivek.datla@philips.com
+prna-run4	Philips Research North America	ws://54.158.156.0:11003	vivek.datla@philips.com
