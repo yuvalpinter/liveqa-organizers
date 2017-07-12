@@ -1,8 +1,14 @@
 whom	name	server_url	contact_email
-EmoryTest	test	http://carbonite.mathcs.emory.edu:11234	eugene
-CMU-OAQA	CMU	http://gold.lti.cs.cmu.edu:11000/	diwang@cs.cmu.edu
-Localtest	Yuval	http://localhost:11234	uvp
-prna-r1	Philips Research North America	ws://54.158.156.0:11000	vivek.datla@philips.com
-prna-run2	Philips Research North America	ws://54.158.156.0:11001	vivek.datla@philips.com
-prna-run3	Philips Research North America	ws://54.158.156.0:11002	vivek.datla@philips.com
-prna-run4	Philips Research North America	ws://54.158.156.0:11003	vivek.datla@philips.com
+Emory Test2	Emory	http://carbonite.mathcs.emory.edu:11234	eugene.agichtein.liveqa@gmail.com
+CMU-OAQA	Carnegie Mellon University	http://gold.lti.cs.cmu.edu:11000/	diwang@cs.cmu.edu
+prna-r1	Philips Research North America	http://54.158.156.0:11000	vivek.datla@philips.com
+prna-run2	Philips Research North America	http://54.158.156.0:11001	vivek.datla@philips.com
+prna-run3	Philips Research North America	http://54.158.156.0:11002	vivek.datla@philips.com
+prna-run4	Philips Research North America	http://54.158.156.0:11003	vivek.datla@philips.com
+FCI.CU	Faculty of Computers and Information, Cairo University	https://tim-crown-37939.herokuapp.com:443	iman.saleh@fci-cu.edu.eg
+ECNU_ICA	East China Normal University	http://47.88.15.178:80	fssqawj@gmail.com
+ECNU_ICA_2	East China Normal University	http://47.88.10.134:80	qchen@ica.stc.sh.cn
+ECNU	East China Normal University	http://47.89.184.44:8888	yixuan_sheng@163.com
+CMU-LiveMedQA	Carnegie Mellon University	http://52.206.148.113:8080/	yuany2@andrew.cmu.edu
+WhereWeAre	Institute of Computing Technology, Chineses Academy of Science	202.108.212.146:8899	zhaozicheng@software.ict.ac.cn
+WhereWeAre	Institute Of Computing Technology, Chineses Academy of Science	159.226.41.217:8899	zhaozicheng@software.ict.ac.cn
