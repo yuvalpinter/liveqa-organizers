@@ -3,6 +3,7 @@
 
 package com.yahoo.yrlhaifa.liveqa.challenge.question_feed;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Calendar;
@@ -33,11 +34,29 @@ import com.yahoo.yrlhaifa.liveqa.common.HoursMinutesSeconds;
  *
  */
 public class QuestionFeederFromRss extends QuestionFeederWithFilter {
-    public QuestionFeederFromRss(QuestionFilter questionFilter, String rssUrl,
+    
+	@SuppressWarnings("unchecked")
+	public QuestionFeederFromRss(QuestionFilter questionFilter, String rssUrl,
                     HoursMinutesSeconds maximumAgeOfQuestion) {
         super(questionFilter);
         this.rssUrl = rssUrl;
         this.maximumAgeOfQuestion = maximumAgeOfQuestion;
+
+        SyndFeedInput input = new SyndFeedInput();
+        //SyndFeed feed = input.build(new XmlReader(new URL(rssUrl)));
+        SyndFeed feed = null;
+		try {
+			feed = input.build(new XmlReader(new File(rssUrl).toURI().toURL()));
+		} catch (IllegalArgumentException | FeedException | IOException e) {
+            logger.error("Failed to read RSS feed. It is assumed that this is a local problem and not an inherent failure.\n"
+                            + "This failure will be dealt with by higher levels, but is not considered as fatal. Problem is:",
+                            e);
+            this.entryObjectsIterator = null;
+            return;
+            //return new QuestionFeederNextQuestion(null, null, e.getClass().getName() + ": " + e.getMessage());
+        }
+
+        this.entryObjectsIterator = feed.getEntries().iterator();
     }
 
 
@@ -51,43 +70,31 @@ public class QuestionFeederFromRss extends QuestionFeederWithFilter {
         if (excludeIDs.isEmpty()) {
             previousSentTime = previousCandidateTime;
         }
-        try {
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new XmlReader(new URL(rssUrl)));
-
-            QuestionFromRssEntry fromRss = null;
-            QuestionFeederNextQuestion ret = null;
-            @SuppressWarnings("unchecked")
-            Iterator<? extends Object> entryObjectsIterator = feed.getEntries().iterator();
-            while (entryObjectsIterator.hasNext() && (null == ret)) {
-                Object entryObj = entryObjectsIterator.next();
-                if (entryObj instanceof SyndEntry) {
-                    try {
-                        SyndEntry entry = (SyndEntry) entryObj;
-                        fromRss = QuestionFromRssEntry.createFromRssEntry(entry);
-                        if (!(excludeIDs.contains(fromRss.getId()))) {
-                            ret = createQuestionFromRssQuestion(fromRss);
-                        } else {
-                            // else - ret is null, and loop continues.
-                            logger.info("Encountered a filtered question \"" + fromRss.getId()
-                                            + "\". Searching for another question.");
-                        }
-                    } catch (QuestionFeedNonFatalException e) {
-                        logger.error("Reading an RSS feed has failed. Assuming this is not a permanent problem, the program continues and tries to read the next feed.",
-                                        e);
+        QuestionFromRssEntry fromRss = null;
+        QuestionFeederNextQuestion ret = null;
+        while (entryObjectsIterator.hasNext() && (null == ret)) {
+            Object entryObj = entryObjectsIterator.next();
+            if (entryObj instanceof SyndEntry) {
+                try {
+                    SyndEntry entry = (SyndEntry) entryObj;
+                    fromRss = QuestionFromRssEntry.createFromRssEntry(entry);
+                    if (!(excludeIDs.contains(fromRss.getId()))) {
+                        ret = createQuestionFromRssQuestion(fromRss);
+                    } else {
+                        // else - ret is null, and loop continues.
+                        logger.info("Encountered a filtered question \"" + fromRss.getId()
+                                        + "\". Searching for another question.");
                     }
-                } else {
-                    logger.error("One of the entries in the list of RSS feed entries is not a \"SyndEntry\". Program continues, with the hope that other entries are fine.");
+                } catch (QuestionFeedNonFatalException e) {
+                    logger.error("Reading an RSS feed has failed. Assuming this is not a permanent problem, the program continues and tries to read the next feed.",
+                                    e);
                 }
-            } // end of while
-              // Note: it is OK to return null here. If iterator.hasNext()==false, then null is returned.
-            return ret;
-        } catch (IllegalArgumentException | FeedException | IOException e) {
-            logger.error("Failed to read RSS feed. It is assumed that this is a local problem and not an inherent failure.\n"
-                            + "This failure will be dealt with by higher levels, but is not considered as fatal. Problem is:",
-                            e);
-            return new QuestionFeederNextQuestion(null, null, e.getClass().getName() + ": " + e.getMessage());
-        }
+            } else {
+                logger.error("One of the entries in the list of RSS feed entries is not a \"SyndEntry\". Program continues, with the hope that other entries are fine.");
+            }
+        } // end of while
+          // Note: it is OK to return null here. If iterator.hasNext()==false, then null is returned.
+        return ret;
     }
 
     private QuestionFeederNextQuestion createQuestionFromRssQuestion(final QuestionFromRssEntry fromRss)
@@ -149,6 +156,7 @@ public class QuestionFeederFromRss extends QuestionFeederWithFilter {
     // input
     protected final String rssUrl;
     protected final HoursMinutesSeconds maximumAgeOfQuestion;
+    protected final Iterator<? extends Object> entryObjectsIterator;
 
 
     // internals
