@@ -120,7 +120,7 @@ public class QuestionFeederFromRss extends QuestionFeederWithFilter {
         } else {
             boolean isNew = true;
             if (previousSentTime != null) {
-                if (previousSentTime.before(publishedDate)) {
+                if (previousSentTime.before(publishedDate) || previousSentTime.equals(publishedDate)) {
                     isNew = true;
                 } else {
                     isNew = false;
